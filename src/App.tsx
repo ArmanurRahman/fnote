@@ -2,6 +2,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import * as esbuild from "esbuild-wasm";
 import { unpkgPathPlugin } from "./plugins/unpkg-path-plugin";
 import { fetchPlugin } from "./plugins/fetch-plugin";
+import CodeEditor from "./components/code-editor";
 
 const App = () => {
     const [input, setInput] = useState<string>("");
@@ -68,9 +69,14 @@ const App = () => {
             </body>
         </html>
     `;
+
+    const onChangeHandler = (val: string) => {
+        setInput(val);
+    };
     return (
         <Fragment>
             <div>
+                <CodeEditor value={input} onChange={onChangeHandler} />
                 <textarea
                     rows={5}
                     cols={100}
