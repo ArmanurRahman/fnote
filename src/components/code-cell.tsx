@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { useEffect, useState } from "react";
 import CodeEditor from "./code-editor";
 import Preview from "./preview";
 import builder from "../build";
@@ -8,14 +8,16 @@ const CodeCell = () => {
     const [input, setInput] = useState<string>("");
     const [code, setCode] = useState<string>("");
 
-    const inputSubmitHandler = async () => {
-        const result = await builder(input);
-        setCode(result);
-    };
+    useEffect(() => {
+        const timer = setTimeout(async () => {
+            const output = await builder(input);
+            setCode(output);
+        }, 750);
 
-    const onChangeHandler = (val: string) => {
-        setInput(val);
-    };
+        return () => {
+            clearTimeout(timer);
+        };
+    }, [input]);
     return (
         <Resizable direction='vertical'>
             <div
